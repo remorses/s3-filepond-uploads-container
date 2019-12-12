@@ -1,8 +1,8 @@
-FROM python:3.7-alpine
-
-RUN apk  add --no-cache dumb-init # build-base
+FROM python:3.7.4-slim-stretch
 
 WORKDIR /src
+
+ENV PYTHONUNBUFFERED=1
 
 COPY requirements.txt /src/
 
@@ -10,6 +10,4 @@ RUN pip install -r requirements.txt
 
 COPY . /src/
 
-ENTRYPOINT ["dumb-init", "--"]
-CMD ["python", "-m", ""]
-
+CMD python -m src

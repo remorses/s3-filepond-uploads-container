@@ -1,2 +1,6 @@
 coloredlogs
+aiobotocore
+aiohttp
+aiohttp_cors
 python-dotenv
+PyJWT

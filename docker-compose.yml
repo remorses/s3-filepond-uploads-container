@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+    upload:
+        build: .
+        ports:
+            - 8010:80
+        environment:
+            - ACCESS_KEY_ID=$ACCESS_KEY_ID
+            - SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
+            # - S3_ENDPOINT="https://fra1.digitaloceanspaces.com"
+            - DIRECTORY=testing-filepond/
+            - BUCKET=testshitkjhdgfslkjsdbf
+            - REGION=eu-west-1
+        
