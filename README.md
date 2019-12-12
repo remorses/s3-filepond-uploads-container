@@ -1,5 +1,8 @@
 # Upload you file to S3 using filepond and a docker container
 
+Container that receives uploads at path `/upload` and upload the files in an s3 bucket.
+Can be used with (`filepond`)[https://pqina.nl/filepond/] using the container url.
+
 To see an example add the required env vars `ACCESS_KEY_ID` `SECRET_ACCESS_KEY` in an `.env` file and run in different terminal tabs
 `docker compose up --build`
 `cd client && yarn && yarn dev`
@@ -20,7 +23,7 @@ services:
             - REGION=eu-west-1
 ```
 
-Then your client can then use `fiepond-react` like this
+Then your client can then use `fiepond-react` with the container url `http://localhost:8010/upload`
 
 ```tsx
 import React, { useState } from 'react'
