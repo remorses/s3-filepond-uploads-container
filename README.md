@@ -1,7 +1,10 @@
 # Upload you file to S3 using filepond and a docker container
 
-Container that receives uploads at path `/upload` and upload the files in an s3 bucket.
-Can be used with (`filepond`)[https://pqina.nl/filepond/] using the container url.
+Container that receives uploads at path `/upload` and send the files in an s3 bucket.
+The files Key and url are made with a random string so that these files can be exposed with `public-read` ACL and used directly in your app,
+Can be used with (`filepond`)[https://pqina.nl/filepond/] using the container url as the `server` parameter.
+
+The image is 20 Mb uncompressed, the files are handled as streams so memory usage shoud not be high
 
 To see an example add the required env vars `ACCESS_KEY_ID` `SECRET_ACCESS_KEY` in an `.env` file and run in different terminal tabs
 `docker compose up --build`
@@ -16,9 +19,9 @@ services:
         ports:
             - 8010:80
         environment:
-            - ACCESS_KEY_ID=$ACCESS_KEY_ID
-            - SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
-            - DIRECTORY=testing-filepond/ # optional
+            - AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
+            - AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
+            - DIRECTORY=testing-filepond/
             - BUCKET=testshitkjhdgfslkjsdbf
             - REGION=eu-west-1
 ```

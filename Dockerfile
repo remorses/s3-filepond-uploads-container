@@ -1,13 +1,30 @@
-FROM python:3.7.4-slim-stretch
 
-WORKDIR /src
+# Start from the latest golang base image
+FROM golang:latest as builder
 
-ENV PYTHONUNBUFFERED=1
 
-COPY requirements.txt /src/
+# Set the Current Working Directory inside the container
+WORKDIR /app
 
-RUN pip install -r requirements.txt
+# Copy go mod and sum files
+COPY go.mod go.sum ./
 
-COPY . /src/
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+RUN go mod download
 
-CMD python -m src
+# Copy the source from the current directory to the Working Directory inside the container
+COPY . .
+
+# Build the Go app
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+   go build -gcflags "all=-N -l" -o /main main.go
+
+FROM alpine:3.7
+
+COPY --from=builder /main /main
+
+# Expose port 8080 to the outside world
+EXPOSE 80
+
+# Command to run the executable
+CMD ["/main"]

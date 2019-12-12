@@ -13,6 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/rs/cors"
 )
 
 // func uploadToServer(r io.Reader, filename string) (string, error) {
@@ -88,7 +89,7 @@ func uploadToS3(r io.Reader, filename string) (string, error) {
 	return result.Location, nil
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func handle(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	// case "GET":
 	// 	display(w, "upload", nil)
@@ -128,10 +129,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
-	http.HandleFunc("/upload", handler)
+	mux := http.NewServeMux()
+	handler := cors.Default().Handler(mux)
+	mux.HandleFunc("/upload", handle)
 	log.Println("starting listening")
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":80", handler)
 	if err != nil {
 		log.Fatalf("Could not start server: %s\n", err.Error())
 	}
