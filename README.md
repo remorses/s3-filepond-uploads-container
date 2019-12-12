@@ -12,7 +12,7 @@ To see an example add the required env vars `ACCESS_KEY_ID` `SECRET_ACCESS_KEY` 
 version: '3'
 services:
     upload:
-        build: .
+        image: xmorse/s3-filepond
         ports:
             - 8010:80
         environment:

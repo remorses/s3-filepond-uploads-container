@@ -24,7 +24,7 @@ jobs:
     - name: Publish to Dockerhub
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: mongoke/mongoke
+        name: xmorse/s3-filepond
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Bump version
