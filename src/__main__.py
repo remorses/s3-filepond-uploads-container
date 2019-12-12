@@ -16,7 +16,7 @@ from .routes import routes
 
 
 def build():
-    app = web.Application(middlewares=[jwt_middleware])
+    app = web.Application(middlewares=[jwt_middleware], )
     session = aiobotocore.get_session()
     app.create_s3 = lambda: session.create_client(
         "s3",
@@ -44,4 +44,4 @@ def build():
 
 
 if __name__ == "__main__":
-    web.run_app(build(), port=80)
+    web.run_app(build(), port=80, shutdown_timeout=6.)
