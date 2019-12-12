@@ -2,7 +2,7 @@
 
 Container that receives uploads at path `/upload` and send the files in an s3 bucket.
 The files Key and url are made with a random string so that these files can be exposed with `public-read` ACL and used directly in your app,
-Can be used with (`filepond`)[https://pqina.nl/filepond/] using the container url as the `server` parameter.
+Can be used with [`filepond`](https://pqina.nl/filepond/) using the container url as the `server` parameter.
 
 The image is 20 Mb uncompressed, the files are handled as streams so memory usage shoud not be high
 
@@ -11,6 +11,9 @@ To see an example add the required env vars `ACCESS_KEY_ID` `SECRET_ACCESS_KEY` 
 `cd client && yarn && yarn dev`
 
 # How to use
+Add the service to your docker-compose
+Then your client can then use `fiepond-react` with the container url `http://localhost:8010/upload`
+The service returns the url of the uploaded file, automatically handled by filepond that set it to the File object
 ```yml
 version: '3'
 services:
@@ -25,8 +28,6 @@ services:
             - BUCKET=testshitkjhdgfslkjsdbf
             - REGION=eu-west-1
 ```
-
-Then your client can then use `fiepond-react` with the container url `http://localhost:8010/upload`
 
 ```tsx
 import React, { useState } from 'react'
