@@ -34,13 +34,23 @@ var (
 	S3_BUCKET = os.Getenv("BUCKET")
 	// AWS_ACCESS_KEY_ID     = os.Getenv("AWS_ACCESS_KEY_ID")
 	// AWS_SECRET_ACCESS_KEY = os.Getenv("AWS_SECRET_ACCESS_KEY")
-	S3_DIR      = os.Getenv("DIRECTORY")
+	S3_DIR      = getEnv("DIRECTORY", "")
+	PORT        = getEnv("PORT", "80")
 	S3_BASE_URL = fmt.Sprintf("https://%v.s3-%v.amazonaws.com/", S3_BUCKET, S3_REGION)
 	// # S3_ENDPOINT = "https://fra1.digitaloceanspaces.com"
 	// # S3_BASE_URL = "https://instagrammedias.fra1.cdn.digitaloceanspaces.com/"
 	// # S3_BASE_URL = "https://storage.googleapis.com"
 	// # gcp S3_BASE_URL = f"https://storage.googleapis.com/{S3_BUCKET}/"
 )
+
+func getEnv(key, defaultValue string) string {
+	value := os.Getenv(key)
+	if len(value) == 0 {
+		return defaultValue
+	}
+	return value
+}
+
 var creds *credentials.Credentials = credentials.NewEnvCredentials()
 var awsConfig aws.Config = aws.Config{Region: aws.String(S3_REGION), Credentials: creds}
 
@@ -121,6 +131,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			io.WriteString(w, url)
+			return
 		}
 		//display success message.
 	default:
@@ -133,7 +144,7 @@ func main() {
 	handler := cors.Default().Handler(mux)
 	mux.HandleFunc("/upload", handle)
 	log.Println("starting listening")
-	err := http.ListenAndServe(":80", handler)
+	err := http.ListenAndServe(fmt.Sprintf(":%v", PORT), handler)
 	if err != nil {
 		log.Fatalf("Could not start server: %s\n", err.Error())
 	}
