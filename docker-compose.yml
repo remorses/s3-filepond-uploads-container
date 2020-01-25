@@ -8,9 +8,9 @@ services:
         ports:
             - 8010:80
         environment:
+            - ENDPOINT=https://storage.googleapis.com
             - AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
             - AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
-            - ENDPOINT=https://storage.googleapis.com
             - DIRECTORY=testing-filepond/
             - BUCKET=efi-archives
             # - REGION=eu-west-1
