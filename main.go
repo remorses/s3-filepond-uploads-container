@@ -30,8 +30,9 @@ import (
 // }
 
 var (
-	S3_REGION = os.Getenv("REGION")
+	S3_REGION = getEnv("REGION", "eu-west-1")
 	S3_BUCKET = os.Getenv("BUCKET")
+	ENDPOINT  = getEnv("ENDPOINT", "")
 	// AWS_ACCESS_KEY_ID     = os.Getenv("AWS_ACCESS_KEY_ID")
 	// AWS_SECRET_ACCESS_KEY = os.Getenv("AWS_SECRET_ACCESS_KEY")
 	S3_DIR      = getEnv("DIRECTORY", "")
@@ -52,7 +53,7 @@ func getEnv(key, defaultValue string) string {
 }
 
 var creds *credentials.Credentials = credentials.NewEnvCredentials()
-var awsConfig aws.Config = aws.Config{Region: aws.String(S3_REGION), Credentials: creds}
+var awsConfig aws.Config = aws.Config{Region: aws.String(S3_REGION), Credentials: creds, Endpoint: aws.String(ENDPOINT)}
 
 func randomHex(n int) (string, error) {
 	bytes := make([]byte, n)

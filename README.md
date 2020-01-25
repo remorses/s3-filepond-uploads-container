@@ -3,11 +3,10 @@
 Container that receives uploads at path `/upload` and send the files in an s3 bucket.
 The files Key and url are made with a random string so that these files can be exposed with `public-read` ACL and used directly in your app,
 Supports uploading with multipart, can upload only one file at a time, make multiple requests to upload more files
-You can also test that uploading works via curl: 
+You can also test that uploading works via curl:
 `curl -X POST -F "file=@path/to/file.png" http://this-container/upload`
 
 Can be used with [`filepond`](https://pqina.nl/filepond/) using the container url as the `server` parameter.
-
 
 The image is 20 Mb uncompressed, the files are handled as streams so memory usage shoud not be high
 
@@ -21,7 +20,6 @@ To see an example add the required env vars `ACCESS_KEY_ID` `SECRET_ACCESS_KEY` 
 Add the service to your docker-compose
 Then your client can then use `fiepond-react` with the container url `http://localhost:8010/upload`
 The service returns the url of the uploaded file, automatically handled by filepond that set it to the File object
-
 
 ```yml
 version: '3'
@@ -64,4 +62,24 @@ export default function App() {
         </div>
     )
 }
+```
+
+## Usage with Google Cloud Storage
+
+add custom endpoint `ENDPOINT=https://storage.googleapis.com`
+
+```yml
+version: '3'
+
+services:
+    upload:
+        image: xmorse/s3-filepond
+        ports:
+            - 8010:80
+        environment:
+            - ENDPOINT=https://storage.googleapis.com
+            - AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
+            - AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
+            - DIRECTORY=testing-filepond/
+            - BUCKET=efi-archives
 ```

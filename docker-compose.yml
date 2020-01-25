@@ -10,8 +10,8 @@ services:
         environment:
             - AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
             - AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
-            # - S3_ENDPOINT="https://fra1.digitaloceanspaces.com"
+            - ENDPOINT=https://storage.googleapis.com
             - DIRECTORY=testing-filepond/
-            - BUCKET=testshitkjhdgfslkjsdbf
-            - REGION=eu-west-1
+            - BUCKET=efi-archives
+            # - REGION=eu-west-1
         
