@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Publish to Dockerhub
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: elgohr/Publish-Docker-Github-Action@v5
       with:
         name: xmorse/s3-filepond
         username: ${{ secrets.DOCKER_USERNAME }}
